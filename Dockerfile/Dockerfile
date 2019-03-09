@@ -1,0 +1,51 @@
+FROM centos:7
+
+MAINTAINER Farkhod Sadykov <sadykov.farkhod@gmail.com>
+
+ENV datadir /var/data
+ENV appname jenkins
+ENV appversion 1.617
+ENV portoffset 80
+ENV JAVA_OPTIONS -Xmx1024m
+ENV JENKINS_OPTIONS --httpPort=80${portoffset}
+ENV JENKINS_HOME ${datadir}/${appname}
+ENV DOCKERVERSION=18.03.1-ce
+
+## create data directory
+RUN mkdir -p /var/data
+
+## create user
+RUN adduser -u 10${portoffset} -U ${appname} -b ${datadir}
+
+## setting up locale
+RUN echo "LC_ALL=en_US.UTF-8" >> ${JENKINS_HOME}/.bashrc
+
+## install basic tools
+RUN yum install --quiet git subversion deltarpm vim wget curl tar -y && yum clean all -y
+
+## get java
+RUN wget --quiet --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.tar.gz -O /opt/jdk18.tar.gz
+RUN cd /opt && tar xfz jdk18.tar.gz && ln -s /opt/jdk1.8* /opt/jdk18 && rm -rf /opt/*.tar.gz
+
+## add java opts to .bashrc file
+RUN echo "export JAVA_OPTIONS=${JAVA_OPTIONS}" >> ${JENKINS_HOME}/.bashrc
+
+## create custom run.sh
+RUN wget --quiet http://mirrors.jenkins-ci.org/war/latest/jenkins.war -O /opt/jenkins.war && chown ${appname}:${appname} /opt/jenkins.war
+
+## create custom run.sh
+RUN echo "/opt/jdk18/bin/java ${JAVA_OPTS} -jar /opt/jenkins.war ${JENKINS_OPTIONS}" >> /opt/run.sh
+
+
+## Download docker cli
+RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \
+  && tar xzvf docker-${DOCKERVERSION}.tgz --strip 1 \
+                 -C /usr/local/bin docker/docker \
+  && rm docker-${DOCKERVERSION}.tgz
+
+## Volume for docker and jenkins
+VOLUME ["/var/lib/jenkins", "/var/run/docker.sock"]
+
+
+## start jenkins on container start
+CMD su - jenkins -c "sh /opt/run.sh"
