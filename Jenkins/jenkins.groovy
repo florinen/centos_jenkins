@@ -22,7 +22,7 @@ node {
   stage('Push image') {
 
      // Push image to the Nexus with new release
-      docker.withRegistry('docker.io/fsadykov/centos_jenkins', 'dockerhub-credentials') {
+      docker.withRegistry('fsadykov/centos_jenkins', 'dockerhub-credentials') {
           app.push("${env.build}")
           app.push("latest")
       }

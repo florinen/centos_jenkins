@@ -45,4 +45,4 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
 
 
 ## start jenkins on container start
-CMD su - jenkins -c "sh /opt/run.sh"
+CMD su - root -c "sh /opt/run.sh"
