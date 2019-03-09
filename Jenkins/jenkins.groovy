@@ -1,4 +1,4 @@
-mport hudson.EnvVars
+import hudson.EnvVars
 
 def app
 
