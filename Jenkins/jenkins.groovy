@@ -16,13 +16,13 @@ node {
   stage('Build docker image') {
 
     // Build the image
-      app = docker.build("fscoding", "-f ${WORKSPACE}/Dockerfile/Dockerfile .")
+      app = docker.build("fsadykov/centos_jenkins", "-f ${WORKSPACE}/Dockerfile/Dockerfile .")
   }
 
   stage('Push image') {
 
      // Push image to the Nexus with new release
-      docker.withRegistry('https://registry.hub.docker.com/fsadykov/centos_jenkins', 'dockerhub-credentials') {
+      docker.withRegistry('', 'dockerhub-credentials') {
           app.push("${env.build}")
           app.push("latest")
       }
