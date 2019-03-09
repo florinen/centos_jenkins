@@ -23,7 +23,7 @@ node {
 
      // Push image to the Nexus with new release
       docker.withRegistry('', 'dockerhub-credentials') {
-          app.push("${BUILD_NUMBER}")
+          app.push("0.${BUILD_NUMBER}")
           app.push("latest")
       }
   }
