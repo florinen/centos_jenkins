@@ -43,9 +43,6 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
                  -C /usr/local/bin docker/docker \
   && rm docker-${DOCKERVERSION}.tgz
 
-## Volume for docker and jenkins
-VOLUME ["/var/lib/jenkins", "/var/run/docker.sock"]
-
 
 ## start jenkins on container start
 CMD su - jenkins -c "sh /opt/run.sh"
