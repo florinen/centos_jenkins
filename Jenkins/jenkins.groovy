@@ -13,11 +13,11 @@ node {
       app = docker.build("fsadykov/centos_jenkins", "-f ${WORKSPACE}/Dockerfile/Dockerfile .")
   }
 
-  stage('Testing the aplication') {
-    app.inside {
-      sh 'ls '
-    }
-  }
+  // stage('Testing the aplication') {
+  //   app.inside {
+  //     sh 'ls '
+  //   }
+  // }
 
   stage('Push image') {
 
