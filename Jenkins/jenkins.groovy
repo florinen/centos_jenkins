@@ -15,8 +15,8 @@ node {
 
   stage('Testing the aplication') {
     app.inside {
-      sh 'ls /opt/run.sh'
-    }  
+      sh 'ls '
+    }
   }
 
   stage('Push image') {
