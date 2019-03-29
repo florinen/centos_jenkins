@@ -15,9 +15,6 @@ ENV DOCKERVERSION=18.03.1-ce
 ## create data directory
 RUN mkdir -p ${datadir}
 
-## Volume for Jenkins
-VOLUME ${datadir}
-
 ## create user
 RUN adduser -u 10${portoffset} -U ${appname} -b ${datadir}
 
@@ -47,6 +44,9 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
                  -C /usr/local/bin docker/docker \
   && rm docker-${DOCKERVERSION}.tgz
 
+
+## Volume for Jenkins
+VOLUME ${JENKINS_HOME}
 
 ## start jenkins on container start
 CMD su - root -c "sh /opt/run.sh"
