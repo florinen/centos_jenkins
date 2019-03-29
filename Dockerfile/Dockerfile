@@ -11,8 +11,12 @@ ENV JENKINS_OPTIONS --httpPort=80${portoffset}
 ENV JENKINS_HOME ${datadir}/${appname}
 ENV DOCKERVERSION=18.03.1-ce
 
+
 ## create data directory
-RUN mkdir -p /var/data
+RUN mkdir -p ${datadir}
+
+## Volume for Jenkins
+VOLUME ${datadir}
 
 ## create user
 RUN adduser -u 10${portoffset} -U ${appname} -b ${datadir}
