@@ -2,6 +2,15 @@ import hudson.EnvVars
 
 def app
 
+
+properties([
+  parameters([
+    booleanParam(defaultValue: false,
+      description: 'Click this if you would like to deploy to latest',
+      name: 'PUSH_LATEST'
+      )])])
+
+
 node {
 
   // Pooling the docker image
@@ -19,7 +28,10 @@ node {
      // Push docker image to the Docker hub
       docker.withRegistry('', 'dockerhub-credentials') {
           app.push("0.${BUILD_NUMBER}")
-          app.push("latest")
+          // If push to latest parameters selected
+          if (params.PUSH_LATEST){
+            app.push("latest")
+          }
       }
   }
 }
