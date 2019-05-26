@@ -26,7 +26,7 @@ node {
 
      // Push docker image to the Docker hub
       docker.withRegistry('', 'dockerhub-credentials') {
-          app.push("kube.${BUILD_NUMBER}")
+          app.push("kube-v0.${BUILD_NUMBER}")
 
           // If push to latest parameters selected
           if (params.PUSH_LATEST){
