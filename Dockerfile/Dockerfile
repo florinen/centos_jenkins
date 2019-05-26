@@ -25,7 +25,8 @@ RUN echo "LC_ALL=en_US.UTF-8" >> ${JENKINS_HOME}/.bashrc
 RUN yum install --quiet git subversion deltarpm vim wget curl tar -y && yum clean all -y
 
 ## get java
-RUN wget --quiet --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.tar.gz -O /opt/jdk18.tar.gz
+RUN wget --quiet  --continue --no-check-certificate --header "Cookie: oraclelicense=a" https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.tar.gz -O /opt/jdk18.tar.gz
+# RUN wget --quiet --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.tar.gz -O /opt/jdk18.tar.gz
 RUN cd /opt && tar xfz jdk18.tar.gz && ln -s /opt/jdk1.8* /opt/jdk18 && rm -rf /opt/*.tar.gz
 
 ## add java opts to .bashrc file
