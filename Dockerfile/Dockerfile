@@ -56,5 +56,5 @@ COPY . /scripts/
 VOLUME ${JENKINS_HOME}
 
 ## start jenkins on container start
-CMD /scripts/set-config.sh > /var/log/kube-set-config.log
+CMD /scripts/set-config.sh 
 CMD su - root -c "sh /opt/run.sh"
