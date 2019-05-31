@@ -35,13 +35,7 @@ RUN echo "export JAVA_OPTIONS=${JAVA_OPTIONS}" >> ${JENKINS_HOME}/.bashrc
 RUN wget --quiet http://mirrors.jenkins-ci.org/war/latest/jenkins.war -O /opt/jenkins.war && chown ${appname}:${appname} /opt/jenkins.war
 
 ## create custom run.sh
-RUN echo """#!/usr/bin/env bash
-kubectl config set-cluster fuchicorp-cluster --server=https://kubernetes.default --certificate-authority=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-kubectl config set-context fuchicorp-context --cluster=fuchicorp-cluster
-kubectl config set-credentials fuchicorp-user --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
-kubectl config set-context fuchicorp-context --user=fuchicorp-user
-kubectl config use-context fuchicorp-context
-/opt/jdk18/bin/java ${JAVA_OPTS} -jar /opt/jenkins.war ${JENKINS_OPTIONS}""" >> /opt/run.sh
+RUN echo "/opt/jdk18/bin/java ${JAVA_OPTS} -jar /opt/jenkins.war ${JENKINS_OPTIONS}" >> /opt/run.sh
 
 
 ## Download docker cli
@@ -61,4 +55,5 @@ COPY . /scripts/
 VOLUME ${JENKINS_HOME}
 
 ## start jenkins on container start
+CMD sh /scripts/set-config.sh
 CMD su - root -c "sh /opt/run.sh"
