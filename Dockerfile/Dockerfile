@@ -46,7 +46,7 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
 ## Install kubectl
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kubectl \
     && chmod +x ./kubectl \
-    && mv ./kubectl /usr/local/bin/kubectl
+    && mv ./kubectl /usr/local/bin/kubectl \ 
     && mkdir ~/.kube
 
 ## Copy Script to set ~/.kube/config
